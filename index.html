@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>태권도 용어 (跆拳道 用語) — AI 태권도 용어 발음 코치</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
@@ -366,6 +366,112 @@
     font-family: 'IBM Plex Mono', monospace;
     border-top: 1px solid var(--line);
     padding-top: 18px;
+  }
+
+  /* =========================================================
+     MOBILE LAYOUT (<= 700px)
+     - 연습 패널을 맨 위로, 용어 목록은 그 아래 2열 카드로
+     - 점수 링 + 현재 용어를 한 줄에, 마이크 버튼은 크게
+     ========================================================= */
+  html { -webkit-text-size-adjust: 100%; }
+  button, .term-card { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+  @media (max-width: 700px) {
+    .wrap {
+      display: flex;
+      flex-direction: column;
+      padding: calc(20px + env(safe-area-inset-top, 0px)) 16px calc(40px + env(safe-area-inset-bottom, 0px));
+    }
+    header { order: 1; margin-bottom: 16px; }
+    .browser-note { order: 2; align-self: stretch; margin: 0 0 14px; font-size: 11px; padding: 8px 12px; border-radius: 12px; line-height: 1.4; }
+    .practice { order: 3; margin-top: 0; }
+    .section-label { order: 4; margin: 28px 0 12px; }
+    #termCategories { order: 5; }
+    footer { order: 6; margin-top: 28px; line-height: 1.6; }
+
+    /* Header */
+    .eyebrow { font-size: 10px; letter-spacing: 0.12em; margin-bottom: 10px; }
+    h1 { font-size: 30px; margin-bottom: 8px; }
+    h1 span { display: block; font-size: 0.6em; margin-top: 2px; }
+    .subtitle {
+      font-size: 13.5px; line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+      cursor: pointer; position: relative;
+    }
+    .subtitle.expanded { -webkit-line-clamp: unset; display: block; }
+    .subtitle-more {
+      display: inline-block; margin-top: 4px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--gold);
+      background: none; border: none; padding: 4px 0; cursor: pointer;
+    }
+
+    /* Language switch: 한 줄 가로 스크롤 */
+    .lang-switch {
+      display: flex; flex-wrap: nowrap; width: 100%;
+      overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      margin-top: 14px;
+    }
+    .lang-switch::-webkit-scrollbar { display: none; }
+    .lang-btn { flex: 0 0 auto; padding: 10px 16px; font-size: 13px; white-space: nowrap; }
+
+    /* Practice panel */
+    .practice {
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      column-gap: 16px; row-gap: 14px;
+      padding: 18px 16px;
+      border-radius: 16px;
+      scroll-margin-top: 12px;
+    }
+    .score-wrap, .practice-main { display: contents; }
+
+    .score-ring { grid-column: 1; grid-row: 1; width: 104px; height: 104px; align-self: center; }
+    .score-ring svg { width: 100%; height: 100%; }
+    .score-num { font-size: 22px; }
+    .score-label { font-size: 9px; }
+
+    .target-block { grid-column: 2; grid-row: 1; align-self: center; min-width: 0; }
+    .target-block .term-hangul { font-size: 30px; line-height: 1.15; word-break: keep-all; }
+    .target-audio-row { gap: 10px; }
+    .speak-btn-lg { width: 44px; height: 44px; }
+    .target-meta { font-size: 12px; line-height: 1.4; }
+    .target-meaning { font-size: 13px; line-height: 1.45; }
+    .listen-hint { display: none; }
+
+    .score-tag { grid-column: 1 / -1; grid-row: 2; font-size: 13px; line-height: 1.5;
+      background: var(--bg-soft); border-radius: 10px; padding: 8px 12px; }
+
+    .mic-row {
+      grid-column: 1 / -1; grid-row: 3;
+      flex-direction: column; align-items: center; gap: 10px; text-align: center;
+      padding: 6px 0 2px;
+    }
+    .mic-btn { width: 84px; height: 84px; font-size: 32px; }
+    .mic-status { font-size: 13px; line-height: 1.5; }
+
+    .heard-block { grid-column: 1 / -1; grid-row: 4; padding: 12px 14px; }
+    .feedback-block { grid-column: 1 / -1; grid-row: 5; font-size: 14.5px; line-height: 1.7; padding-left: 14px; }
+
+    /* Term list */
+    .category-block { margin-bottom: 22px; }
+    .category-title { font-size: 14px; margin-bottom: 8px; line-height: 1.4; }
+    .term-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .term-card { padding: 12px; min-height: 84px; }
+    .term-card:hover { transform: none; }
+    .term-card:active { background: var(--surface-hi); }
+    .term-hangul { font-size: 18px; word-break: keep-all; }
+    .term-card .term-hangul { min-width: 0; }
+    .speak-btn { width: 36px; height: 36px; font-size: 15px; margin: -4px -4px 0 0; }
+    .term-romaja { font-size: 11px; word-break: break-word; }
+    .term-gloss { font-size: 12px; line-height: 1.35; }
+  }
+
+  /* 아주 좁은 화면 (~360px 이하) */
+  @media (max-width: 360px) {
+    .wrap { padding-left: 12px; padding-right: 12px; }
+    .practice { grid-template-columns: 88px 1fr; padding: 16px 12px; column-gap: 12px; }
+    .score-ring { width: 88px; height: 88px; }
+    .target-block .term-hangul { font-size: 26px; }
   }
 </style>
 </head>
@@ -835,6 +941,11 @@ function selectTerm(term, cardEl) {
   cardEl.classList.add('active');
   renderTarget();
   resetResult();
+  // 모바일: 용어를 고르면 연습 패널로 자동 이동
+  if (window.matchMedia('(max-width: 700px)').matches) {
+    const panel = document.querySelector('.practice');
+    if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 function sectionLabelHTML() {
@@ -1480,6 +1591,13 @@ function buildFallbackFeedback(term, heard, score) {
   if (score >= 60) return templates.mid(term, hint);
   return templates.low(term, hint);
 }
+
+// 모바일: 소개문 3줄 요약 / 탭하면 펼치기
+(function () {
+  const sub = document.getElementById('subtitleText');
+  if (!sub) return;
+  sub.addEventListener('click', () => sub.classList.toggle('expanded'));
+})();
 
 // init
 renderIntroText();
